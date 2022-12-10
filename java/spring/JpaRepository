@@ -50,7 +50,14 @@ public interface ProductRepository extents JpaRepository<Product, Long> {
   
   // (5) 앞에 List<...> 또는 클래스말고 Optional을 사용할 수 있다. 
   // Optional을 사용하게 되면, 존재할수도 있지만 안할 수도 있는 객체, 즉 null이 될 수도 있는 객체를 감싸고 있는 일종의 래퍼 클래스가 된다.
-  // 기존엔 객체를 직접 null인지 체크 했지만 optional에 담아서 쓰면 null을 다루기가 좋아진다.
+  // 기존엔 객체를 직접 null인지 체크 했지만 optional에 담아서 쓰면 null을 다루기가 좋아진다. 아래는 예시이다.
+  Optional<Product> findByTitle(String title);
+  
+  // 다른 파일에서 Repository 불러오기. (2) 번은 주석처리를 해준다.
+  // Product product = ProductRepository.findByTitle("어떤제목").orElseThrow(
+  //    () -> new RuntimeException("어떤 제목이 없습니다.")
+  // )
+  // 이와같이 Null이될지 안될지 알 수 없는경우에는 Optional을 붙여 처리하는것이 좋다. 확실히 있다면 안써도 된다.
   
 }
 
