@@ -1,0 +1,85 @@
+메모 수정
+
+Dto에 받을 값을 작성해둔다.
+
+
+
+Controller
+
+@RestController
+@RequiredArgsConstructor
+public class Controller {
+  
+  // 서비스를 불러온다.
+  private final Service service;
+  
+  // 풋매핑을 통해 해당 게시글 아이디를 가지고오고(id 패스베리어블), 변경될 메모도 가지고온다(requestDto 리퀘스트바디). 
+  @PutMapping("/api/memos/{id}")
+  public Long updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto) {
+    return Service.update(id, requestDto);
+    
+    
+  // 메모삭제는 간단하다. 해당 메모의 아이디값을 가져와 서비스로 보낸다.
+  @DeleteMapping("/api/memos/{id}")
+  public Long deleteMemo(@PathVariable Long id) {
+    return Service.deletememo(id);
+}
+
+
+Service
+
+@Service
+@RequiredArgsConstructor
+public class Service {
+  // 레파짓토리 연결한다.
+  private final MemoRepository memoRepository;
+  
+  public Long update(Long id, MemoRequestDto requestDto) {
+    // 메모 데이터베이스에 id값을 확인해보고 존재여부확인한다.
+    Memo memo = memoRepository.findById(id).orElseThrow(
+      // 해당 메모가 없을 시 예외상황처리
+      () -> new IllegalArgumentException("해당 메모가 없습니다")
+    );
+    // 해당 메모에 새로 받아온 requestDto를 보낸다.
+    memo.update(requestDto);
+    // 가지고온 메모를 반환한다.
+    return memo.getId();
+  }
+  // 메모데이터베이스에 해당 게시글을 삭제한다. 끝
+  public Long deleteMemo(Long id) {
+    memoRepository.deleteById(id);
+    return id;
+}
+
+
+Entity
+
+@Entity
+@Getter
+@NoArgsConstructor
+public class Entity {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  
+  @Column(nullable = false)
+  private String username;
+  
+  
+  @Column(nullable = false)
+  private String contents;
+  
+  
+  // 메모 생성할때 사용
+  public Memo(MemoRequestDto requestDto) {
+    this.username = requestDto.getUsername();
+    this.contents = requestDto.getContents();
+    return memo;
+  }
+  
+  // 메모 수정할때 사용 ( 데이터를 넣고 돌려줄 게 없으니 void )
+  public void update(MemoRequestDto requestDto) {
+    this.username = requestDto.getUsername();
+    this.contents = requestDto.getContents();
+  }
+}
