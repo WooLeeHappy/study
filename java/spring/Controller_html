@@ -11,8 +11,17 @@ public class Controller {
   @GetMapping("/html/index")
   public String htmlFile() {
     return "redirect:/index.html";
-    
+  }
+  
   // templates 안에있는 index.html을 반환한다.
   @GetMapping("/html/templates")
   public String htmlTemplates() {
     return "index";
+  }
+
+
+  // html 이름 index를 넣으면 페이지를 반환한다. 
+  @GetMapping("/")
+  public ModelAndView home() {
+    return new ModelAndView("index");
+  }
