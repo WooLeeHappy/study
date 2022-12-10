@@ -3,7 +3,34 @@ Repository interface 선언만 해준다면 구현은 Spring data JPA 가 대신
 
 엔티티 파일명은 이해하기 쉽게 `Example` 라고 가정한다.
 
+@Entity
+public class Product {
+		@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private Long userId;
+    private String title;
+    private String image;
+    private String link;
+    private int lprice;
+    private int myprice;
+}
+
+// 1. 상품 생성
+Product product = new Product(...);
+productRepository.save(product);
+
+// 2. 상품 전체 조회
+List<Product> products = productRepository.findAll();
+
+// 3. 상품 전체 개수 조회
+long count = productRepository.count();
+
+// 4. 상품 삭제
+productRepository.delete(product);
+
 기본 사용법
+
 public interface ExampleRepository extents JpaRepository<Example, Long> {
   
   // (1) 회원 ID로 등록된 상품들 조회
