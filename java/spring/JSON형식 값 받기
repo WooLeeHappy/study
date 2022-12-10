@@ -1,0 +1,64 @@
+// Star 클래스 파일
+@Getter
+@Setter
+@AllArgsConstructor
+public class Star {
+  String name;
+  int age;
+
+
+//Controller 클래스 파일
+@PostMapping("Url")
+@ResponseBody
+public String Jsonform(@RequestBody Star star) {
+  return star;
+  
+  
+주의할점은 클라이언트에서 보내주는 값과,  필드값이 완전히 동일해야 한다.
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Hello Request</title>
+</head>
+<body>
+<h2>POST /request/form/json</h2>
+<form id="helloJsonForm">
+    <div>
+        이름: <input name="name" type="text">
+    </div>
+    <div>
+        나이: <input name="age" type="text">
+    </div>
+</form>
+<div>
+    <button id="helloJsonSend">전송</button>
+</div>
+<div>
+    <div id="helloJsonResult"></div>
+</div>
+</body>
+<script>
+    // POST /hello/request/form/json
+    const helloJson = document.querySelector("#helloJsonSend")
+    helloJson.onclick = async (e) => {
+        const form = document.querySelector("#helloJsonForm");
+
+        const data = {
+            name: form.querySelector('input[name="name"]').value,
+            age: form.querySelector('input[name="age"]').value
+        }
+
+        const response = await fetch('/request/form/json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+
+        const text = await response.text(); // read response body as text
+        document.querySelector("#helloJsonResult").innerHTML = text;
+    };
+</script>
+</html>
