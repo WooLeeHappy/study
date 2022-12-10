@@ -49,3 +49,7 @@ public interface ExampleRepository extents JpaRepository<Example, Long> {
 
 
 그 외 여러가지가 있으니 Repository에서 해당 코드를 (윈도우기준) Control + 클릭하면 자세한 사용 방법이 나온다.
+또는 아래 사이트를 확인해보자
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
+
+영어를 잘한다면 ;
