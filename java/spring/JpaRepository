@@ -1,0 +1,24 @@
+JPA interface의 기능
+Repository interface 선언만 해준다면 구현은 Spring data JPA 가 대신 해준다.
+
+엔티티 파일명은 이해하기 쉽게 `Example` 라고 가정한다.
+
+기본 사용법
+public interface ExampleRepository extents JpaRepository<Example, Long> {
+  
+  // (1) 회원 ID로 등록된 상품들 조회
+  List<Example> findAllByUserId(Long userId);
+  
+  // (2) 상품명이 title 인 관심상품 1개 조회
+  Product findByTitle(String title);
+  
+  // (3) 상품명에 word가 포함된 모든 상품을 조회
+  List<Example> findAllByTitleContaining(String word);
+  
+  // (4) 최저가가 fromPrice ~ toPrice 인 모든 상품들을 조회
+  List<Product> findAllByLpriceBetween(int fromPrice, int toPrice);
+  
+}
+
+
+그 외 여러가지가 있으니 Repository에서 해당 코드를 (윈도우기준) Control + 클릭하면 자세한 사용 방법이 나온다.
