@@ -37,6 +37,8 @@ public interface ProductRepository extents JpaRepository<Product, Long> {
   
   // (1) 회원 ID로 등록된 상품들 조회
   List<Product> findAllByUserId(Long userId);
+  // 최신순으로 상품조회, Desc는 내림차순 ( Product에 타임스탬프가 부모객체로 있어야 함. )
+  List<Product> findAllByOrderByModifiedAtDesc();
   
   // (2) 상품명이 title 인 관심상품 1개 조회
   Product findByTitle(String title);
@@ -47,8 +49,10 @@ public interface ProductRepository extents JpaRepository<Product, Long> {
   // (4) 최저가가 fromPrice ~ toPrice 인 모든 상품들을 조회
   List<Product> findAllByLpriceBetween(int fromPrice, int toPrice);
   
+ 
   
-  // (5) 앞에 List<...> 또는 클래스말고 Optional을 사용할 수 있다. 
+  
+  // (6) 앞에 List<...> 또는 클래스말고 Optional을 사용할 수 있다. 
   // Optional을 사용하게 되면, 존재할수도 있지만 안할 수도 있는 객체, 즉 null이 될 수도 있는 객체를 감싸고 있는 일종의 래퍼 클래스가 된다.
   // 기존엔 객체를 직접 null인지 체크 했지만 optional에 담아서 쓰면 null을 다루기가 좋아진다. 아래는 예시이다.
   Optional<Product> findByTitle(String title);
