@@ -1,0 +1,13 @@
+카운트 선언 방법
+
+Controller에서 선언을 해준 후 
+private static long visitCount = 0; 
+
+@GetMapping("/html/dynamic")
+public String helloHtmlFile(Model model) {
+  visitCount++;
+  model.addAttribute("visits", visitCount)
+  return "hello-visit";
+  }
+해당 코드는 저 링크가 실행될 때마다 visitCount가 하나씩 증가한다는 의미로 model에 방문자수를 같이 보낸다.
+작성 후 해당 html파일에서 "${visits}"를 통해 가져올 수 있다.
