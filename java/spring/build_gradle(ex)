@@ -1,0 +1,51 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.6'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.sparta'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+  // spring data jpa - 데이터베이스 접근을 쉽게 해줌 (쿼리문을 대신 작성)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  
+  // thymeleaf - 타임리프는 흔히 View Template이라고 부릅니다. 뷰 템플릿은 컨트롤러가 전달하는 데이터를 이용하여 동적으로 화면을 구성할 수 있게 해줌
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+  
+  // spring web - web utility를 제공, mvc도 포함되어있음
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+  
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  
+  // lombok - Java 라이브러리로 반복되는 getter, setter, toString 등의 메서드 작성 코드를 줄여주는 코드 다이어트 라이브러리
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'mysql:mysql-connector-java'
+
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+  
+  // spring security - 보안 관련 설정 
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
