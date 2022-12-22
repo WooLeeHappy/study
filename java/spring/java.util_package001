@@ -1,0 +1,55 @@
+java 패키지 종류에는 여러가지가 있다
+그중 날짜정보와 관련된 클래스 두가지를 알아보자
+
+DATE - 날짜와 시간 정보를 저장하는 클래스 (특정시점의 시간정보)
+Calender - 운영체제의 날짜와 시간을 얻을 때 사용 (달력)
+
+Java 시간/날짜 API 시대 계보도
+JDK 1.0 : java.util.Date (java의 유일한 시간/날짜 API)
+JDK 1.1 : java.util.Calendar (java.util.Date의 날짜간의 연산, 국제화 지원 등의 기능을 java.util.Calendar가 맡게 됨)
+JDK 1.8 (JSR-310) : java.time (오픈소스 Joda-Time에서 많은 영향을 받아 만들어진 새로운 시간/날짜 관련 패키지)
+
+
+Date A = new Date();  // java.Util.Date 를 임포트
+
+        Date now = new Date();
+        System.out.println(now);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 hh시 mm분 ss초");
+        String strNow = sdf.format(now);
+
+
+        Long strNow2 = now.getTime();
+
+
+        System.out.println(strNow);
+        System.out.println(strNow2);
+
+
+
+
+Calendar cal = new Calendar(); // 애러, 추상클래스는 인스턴스 생성 불가!
+
+Calendar cal = Calendar.getInstance(); // Calendar 클래스의 인스턴스 반환
+
+
+		Calendar today = Calendar.getInstance();
+    // 현재기준으로 나온다
+		System.out.println("이 해의 년도 : " + today.get(Calendar.YEAR));
+		System.out.println("월 : " + today.get(Calendar.MONTH));
+		System.out.println("일 : " + today.get(Calendar.DATE));
+		System.out.println("일 : " + today.get(Calendar.DAY_OF_MONTH)); // DATE 와 DAY_OF_MONTH는 같다.
+		System.out.println("요일 : " + today.get(Calendar.DAY_OF_WEEK));
+		// 1: 일요일, 2:월요일 3: 화요일 ... 7: 토요일
+		System.out.println("이 달의 몇번째 요일 : " + today.get(Calendar.DAY_OF_WEEK_IN_MONTH));
+		System.out.println("AM, PM : " + today.get(Calendar.AM_PM)); // 0: 오전 1: 오후
+		System.out.println("시간(0~11) : " + today.get(Calendar.HOUR)); 
+		System.out.println("시간(0~23) : " + today.get(Calendar.HOUR_OF_DAY)); 
+		System.out.println("분(0~59) : " + today.get(Calendar.MINUTE)); 
+		System.out.println("초(0~59) : " + today.get(Calendar.SECOND)); 
+		System.out.println("1000분의 1초(0~999) : " + today.get(Calendar.MILLISECOND)); 
+		
+		System.out.println("이 달의 마지막 날(일수) : " + today.getActualMaximum(Calendar.DATE));
+    
+    
+    하지만 결국엔 둘 다 새로이 개발을 하는 단계라면 LocalDate, LocalTime, LocalDateTime 을 쓰는것이 좋다.
