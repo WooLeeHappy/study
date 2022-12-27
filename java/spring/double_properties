@@ -1,0 +1,5 @@
+스프링에서 두 개 이상의 application.properties를 사용하기 위한 방법
+기존 application.properties 안에 
+spring.profiles.include=security
+security 라고 지정해두었으나, 해당 자리에는 property의 이름을 적으면 된다.
+즉 위의 코드의 경우는 application-security.properties 인 셈이다.
