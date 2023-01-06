@@ -1,0 +1,58 @@
+https://www.devglan.com/online-tools/jasypt-online-encryption-decryption
+
+위 사이트에서 Jasypt Online Encryption 부분
+첫째 Encrypt 할 텍스트를 담고, 타입은 Two Way Encryption으로 태그걸어준다
+그 후 Secret Key To Ne Used While Encryption 부분에 열쇠를 담당할 키를 넣어둔다
+
+그 후 Encrypt버튼을 누르면 Secret Key를 베이스로 Encrypt할 텍스트가 암호화 되어 나오게된다
+
+
+이것을 인텔리제이 스프링부트에서 사용하기 위해 아래와 같이 작성한다
+1. application.properties에 아래 문구를 추가한다
+
+  jasypt.encryptor.bean=jasyptStringEncryptor
+
+2. JasyptConfig 파일을 생성 후 
+
+@RequiredArgsConstructor
+@Configuration
+public class JasyptConfig {
+
+    @Value("${jasypt.encryptor.password}")
+    private String encryptKey;
+
+    @Bean("jasyptStringEncryptor")
+    public StringEncryptor stringEncryptor() {
+        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
+        config.setPassword(encryptKey);
+        config.setAlgorithm("PBEWithMD5AndDES");
+        config.setKeyObtentionIterations("1000");
+        config.setPoolSize("1");
+
+        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
+        config.setIvGeneratorClassName("org.jasypt.iv.NoIvGenerator");
+        config.setStringOutputType("base64");
+        encryptor.setConfig(config);
+        return encryptor;
+    }
+}
+
+3. build.gradle에 아래 문구를 추가한다
+
+  implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+  
+3단계까지했다면 준비는 모두 되었다
+
+사용할때는 보통 application.properties에 넣어 @Value를 통해 가져온다
+
+예를들어 MySQL url, username, password를 작성하기위해 프로퍼티스에 담았을 텐데 작성은 아래처럼 하면 된다
+
+spring.datasource.url=ENC(MkKN/dQfGMIgMlCr2OdRCJfOcrsPVxdIw5OBy+E4XUQhblUMZBk6iewxZLgb/drWGRucqmdrk0BbXwmc+PW7tQAmNcVnpToqVwKWwnUSCmFW4d8eO7TCkQ==)
+spring.datasource.username=ENC(BkaidfDLdnE/4nna739OdQ==)
+spring.datasource.password=ENC(0zifn/F1gZxF7JQHOctqIW4O0d8vD/kG)
+
+ENC안에 처음에 암호화한 텍스트를 넣으면 된다
+
+마지막으로 인텔리제이가 암호화된 텍스트를 열 수 있게 Edit Configurations에 VM 옵션을 추가하여 아래 코드를 작성하면 된다.
+-Djasypt.encryptor.password=암호화할때 쓴 Secret Key
