@@ -1,0 +1,23 @@
+전체 조회시 소프트 딜리트한것 빼고 조회
+
+
+
+- Entity
+    @Column(nullable = false)
+    private boolean postStatus = true;   // true = 정상게시글   false = 삭제된글
+엔티티에 postStatus를 추가해준다
+    
+- Repository
+    List<Post> findAllByOrderByModifiedAtDesc(boolean postStatus);
+레파지토리에는 엔티티에 지정해준 boolean 타입의 변수를 넣어준다
+
+- Service
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> getPosts() {
+        List<PostResponseDto> postList = new ArrayList<>();
+        List<Post> posts = postRepository.findAllByOrderByModifiedAtDesc(true);   // <-- 이 부분을 추가해주어 true인 게시물만 가지고오게 된다
+        for(Post post : posts) {
+            postList.add(new PostResponseDto(post));
+        }
+        return postList;
+    }
