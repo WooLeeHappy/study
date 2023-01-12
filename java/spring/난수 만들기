@@ -1,0 +1,11 @@
+        String str = "";
+        for(int i = 0; i < 6 ; i++) {
+            char a = (char) (Math.random() * 42 + 49);
+            if (a >= 58 && a <= 64) {
+                i--;
+            } else {
+                str += String.valueOf(a);
+            }
+        }
+        
+위 코드 사용시 숫자와, 대문자영어가 섞여 6자리 수를 만들어낸다.
