@@ -1,0 +1,31 @@
+public class FileUtils {
+
+    public static boolean imageFileCheck(File file) {
+        String fileName = file.getName();
+        String ext = fileName.substring(fileName.lastIndexOf(".") + 1,
+                fileName.length());
+        final String[] IMAGE_EXTENSION = {"JPG", "jpg", "jpeg", "JPEG", "PNG", "png"};
+
+        int len = IMAGE_EXTENSION.length;
+        for (int i = 0; i < len; i++) {
+            if (ext.equals(IMAGE_EXTENSION[i])) {
+                return true; //
+            }
+        }
+        return false;
+    }
+    public static boolean videoFileCheck(File file) {
+        String fileName = file.getName();
+        String ext = fileName.substring(fileName.lastIndexOf(".") + 1,
+                fileName.length());
+        final String[] VIDEO_EXTENSION = {"mp4", "MP4","avi","AVI","WMV","wmv","mkv","MKV"};
+
+        int len = VIDEO_EXTENSION.length;
+        for (int i = 0; i < len; i++) {
+            if (ext.equals(VIDEO_EXTENSION[i])) {
+                return true; //
+            }
+        }
+        return false;
+    }
+}
