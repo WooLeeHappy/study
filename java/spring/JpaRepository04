@@ -1,0 +1,32 @@
+@ElementCollection 정리
+
+JPA 는 ORM 이고 ORM 은 Object Releation Mapping 의 약자이다
+RDB 의 경우 데이터를 저장할 때, collection 단위로 저장할 수 있는 방법이 없다.
+예를 들면, Member 라는 테이블에 phone_number 가 여러개 들어갈 수 없다.
+JPA 에서는 @ElementCollection 을 이용해서 Collection 대상인 것을 알려줄 수 있다.
+
+@Entity
+public class Post {
+
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  @Column
+  @ElementCollection
+  private List<String> imageFile;
+}
+위 코드 실행시 한 포스트 안에 여러 이미지 파일이 들어갈 수 있게 리스트로 받을 수 있다
+그러면 엔티티로 일대다 관계로 매핑해주지 않아도 새로 테이블이 생성된다
+다만, 다른 엔티티와 연관관계를 맺을 수 없다.
+
+
+@ElementCollection vs 연관관계 (OneToMany, ManyToMany)
+@ElementCollection
+부모 Entity 에 의해 관리된다.
+무슨 말인가 하면 위에 imageFile 에 post_id 와 관련된 키가 생성된 것을 볼 수 있다.
+부모와 함께 저장되고 삭제됩니다. casecade 옵션이 default 이다.
+컬렉션 값 변경 시, 전체 삭제 후 새로 추가한다.
+post_id 데이터 하나의 image 가 변경되면 전체 삭제 후, 새로 추가한다.
+연관관계 (@OneToMany / @ManyToMany)
+여러 Entity 와 연관관계를 맺을 수 있으며, 연관관계를 맺을 때, 보통 ID 를 사용다.
