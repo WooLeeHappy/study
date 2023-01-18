@@ -11,6 +11,9 @@
     List<Post> findAllByOrderByModifiedAtDesc(boolean postStatus);
 레파지토리에는 엔티티에 지정해준 boolean 타입의 변수를 넣어준다
 
+    Page<Post> findAllByPostStatusAndCategoryOrderByCreatedAtDesc(Pageable pageable, boolean postStatus, String category); 
+    postStatus와, category가 해당부분인 경우 전부가지고오고 그거를 최신순으로 보여주기 위한 줄
+
 - Service
     @Transactional(readOnly = true)
     public List<PostResponseDto> getPosts() {
